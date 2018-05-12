@@ -9,6 +9,8 @@ import javafx.stage.Stage;
  */
 public abstract class RunnableClass extends Application {
 
+	private Stage primaryStage;
+
 	private boolean running = true;
 
 	protected void run() throws Exception {
@@ -22,9 +24,14 @@ public abstract class RunnableClass extends Application {
 	protected abstract void setup();
 	protected abstract boolean loop();
 	protected abstract void shutdown();
+	
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		try {
 			run();
 		} catch (Exception e) {

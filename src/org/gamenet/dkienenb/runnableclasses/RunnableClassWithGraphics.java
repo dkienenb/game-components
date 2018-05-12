@@ -1,46 +1,36 @@
 package org.gamenet.dkienenb.runnableclasses;
 
-import javafx.scene.canvas.Canvas;
+import org.gamenet.javafx.engine.Main;
+import org.gamenet.javafx.engine.Renderer;
+
 import javafx.stage.Stage;
 
-public abstract class RunnableClassWithGraphics extends RunnableClass {
+public abstract class RunnableClassWithGraphics {
 
-	private static final String DEFAULT_TITLE = "Runnable Class with graphics";
-	private static final double DEFAULT_CANVAS_HEIGHT = 900;
-	private static final double DEFAULT_CANVAS_WIDTH = 1600;
-	private Canvas canvas;
+	protected abstract void initialiaze(Stage primaryStage);
+	protected abstract void loop();
+	protected void startup() {}
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		canvas = DrawingSetup.setup(primaryStage, getCanvasWidth(), getCanvasHeight(), this, getTitle());
-		super.start(primaryStage);
+	private final Renderer renderer; 
+
+	public RunnableClassWithGraphics(String[] args, int fps, String windowTitle, double windowWidth, double windowHeight) {
+		
+		renderer = new Renderer(fps, windowTitle, windowWidth, windowHeight) {
+			@Override
+			public void initialize(Stage primaryStage) {
+				initialiaze(primaryStage);
+			}
+
+			public void onKeyFrameStarted() {
+				startup();
+			}
+			
+			@Override
+			public void onKeyFrameFinished() {
+				loop();
+			}
+		};
+		
+		Main.main(renderer, args);
 	}
-
-	protected String getTitle() {
-		return DEFAULT_TITLE;
-	}
-
-	public double getCanvasWidth() {
-		return DEFAULT_CANVAS_WIDTH;
-	}
-
-	public double getCanvasHeight() {
-		return DEFAULT_CANVAS_HEIGHT;
-	}
-
-	protected abstract void canvasSetup(Canvas canvas);
-
-	@Override
-	public boolean loop() {
-		graphicsLoop(canvas);
-		return logicLoop();
-	}
-
-	protected abstract void graphicsLoop(Canvas canvas);
-	protected abstract boolean logicLoop();
-
-	public void setCanvas(Canvas canvas) {
-		this.canvas = canvas;
-	}
-
 }

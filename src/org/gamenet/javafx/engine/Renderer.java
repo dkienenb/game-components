@@ -20,11 +20,11 @@ public abstract class Renderer {
 	private Scene primaryScene;
 	private Group primarySceneRoot;
 
-    public Renderer(int fps, String windowTitle, double d, double e) {
+    public Renderer(int fps, String windowTitle, double gameWindowWidth, double gameWindowHeight) {
     	this.fps = fps;
     	this.windowTitle = windowTitle;
-        this.gameWindowWidth = d;
-        this.gameWindowHeight = e;
+        this.gameWindowWidth = gameWindowWidth;
+        this.gameWindowHeight = gameWindowHeight;
     }
 
     public void initializeWindow(Stage primaryStage) {
@@ -49,7 +49,6 @@ public abstract class Renderer {
 			public void handle(ActionEvent event) {
 				onKeyFrameFinished();
 			}
-
 		};
 		KeyFrame keyframe = new KeyFrame(duration, onFinishedEvent);
         
@@ -67,9 +66,11 @@ public abstract class Renderer {
 	 * Optional method to configure rendering
 	 * @param primaryStage
 	 */
-	public void initialize(Stage primaryStage) {
-	}
+	public void initialize(Stage primaryStage) {}
 
+	/**
+	 * Called once right after initialize.
+	 */
 	public abstract void onKeyFrameStarted();
 
 	/**
