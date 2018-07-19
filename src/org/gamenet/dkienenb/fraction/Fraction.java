@@ -64,9 +64,23 @@ public class Fraction extends Number {
 	}
 
 	public Fraction addTo(Fraction other) {
-		return null;
+		Number denominator = multiply(this.denominator, other.denominator);
+		Number numerator = add(multiply(this.numerator, other.denominator), multiply(other.numerator, this.denominator));
+		return new Fraction(numerator, denominator);
 	}
 
+
+	private static Number add(Number number, Number number2) {
+		if (number instanceof Fraction && number2 instanceof Fraction) {
+			return ((Fraction) number).addTo((Fraction) number2);
+		} else if (number instanceof Fraction) {
+			return ((Fraction) number).addTo(new Fraction(number2, 1));
+		} else if (number2 instanceof Fraction) {
+			return ((Fraction) number2).addTo(new Fraction(number, 1));
+		} else {
+			return number.doubleValue() + number2.doubleValue();
+		}
+	}
 
 	public boolean random(Random random) {
 		return random.nextInt(denominator.intValue()) + 1 <= numerator.doubleValue();

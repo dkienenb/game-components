@@ -1,7 +1,6 @@
 package org.gamenet.dkienenb.textgamecomponents;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class StringSplitter {
@@ -13,17 +12,11 @@ public class StringSplitter {
 		return stringList;
 	}
 
+	@SuppressWarnings("static-method")
 	private void removeNullStrings(List<String> stringList) {
-		for (Iterator<String> iterator = stringList.iterator(); iterator.hasNext();) {
-			String string = (String) iterator.next();
-			if (null != string) {
-				if (string.trim().equals("")) {
-					iterator.remove();
-				}
-			} else {
-				iterator.remove();
-			}
-		}
+		stringList.stream()
+			.filter(string -> string == null || string.equals("") || string.equals("\t") || string.equals("\n") || string.equals("\r"))
+			.forEach(string -> stringList.remove(string));
 	}
 
 }

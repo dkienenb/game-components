@@ -16,15 +16,8 @@ public class ResourceManager {
 		return imageByImageNameMap.get(key);
 	}
 
-	public void loadImages(Map<String, String> imageNameByResourceNameMap) {
-		imageNameByResourceNameMap.keySet().stream()
-			.forEach(resourceName -> {
-				loadImage(imageNameByResourceNameMap.get(resourceName), resourceName);
-			});
-	}
-
-	public void loadImage(String imageName, String resourceName) {
-		Image image = new Image(ImageDrawer.class.getResourceAsStream(resourceName));
+	public void loadImage(String imageName, String resourceLocation) {
+		Image image = new Image(ImageDrawer.class.getResourceAsStream(resourceLocation));
 		imageByImageNameMap.put(imageName, image);
 	}
 }

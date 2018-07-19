@@ -7,20 +7,24 @@ import javafx.stage.Stage;
 
 public abstract class RunnableClassWithGraphics {
 
-	protected abstract void initialiaze(Stage primaryStage);
+	protected abstract void initialize(Stage primaryStage);
 	protected abstract void loop();
-	protected void startup() {}
+	protected abstract int getFPS();
+	protected abstract String getWindowTitle();
+	protected abstract double getWindowWidth();
+	protected abstract double getWindowHeight();
+	protected abstract void startup();
 
-	private final Renderer renderer; 
+	private final Renderer renderer = createRenderer(getFPS(), getWindowTitle(), getWindowWidth(), getWindowHeight()); 
 
-	public RunnableClassWithGraphics(String[] args, int fps, String windowTitle, double windowWidth, double windowHeight) {
-		
-		renderer = new Renderer(fps, windowTitle, windowWidth, windowHeight) {
+	private Renderer createRenderer(int fps, String windowTitle, double windowWidth, double windowHeight) {
+		Renderer renderer = new Renderer(fps, windowTitle, windowWidth, windowHeight) {
 			@Override
 			public void initialize(Stage primaryStage) {
-				initialiaze(primaryStage);
+				super.initialize(primaryStage);
 			}
 
+			@Override
 			public void onKeyFrameStarted() {
 				startup();
 			}
@@ -30,7 +34,11 @@ public abstract class RunnableClassWithGraphics {
 				loop();
 			}
 		};
-		
+		return renderer;
+	}
+
+	protected void start(String[] args) {
 		Main.main(renderer, args);
 	}
+
 }
