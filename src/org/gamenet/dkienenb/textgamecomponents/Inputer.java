@@ -25,4 +25,8 @@ public class Inputer {
 	public String inputRaw() {
 		return scanner.nextLine();
 	}
+
+	public Outputer getOut() {
+		return out;
+	}
 }

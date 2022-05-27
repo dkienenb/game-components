@@ -14,6 +14,9 @@ public class StringSplitter {
 
 	@SuppressWarnings("static-method")
 	private void removeNullStrings(List<String> stringList) {
+		if (1 == stringList.size() && stringList.get(0).equals("")) {
+			return;
+		}
 		stringList.stream()
 			.filter(string -> string == null || string.equals("") || string.equals("\t") || string.equals("\n") || string.equals("\r"))
 			.forEach(string -> stringList.remove(string));
