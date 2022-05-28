@@ -5,9 +5,12 @@ import java.util.Scanner;
 
 public class Inputer {
 
-	public Inputer(Outputer out) {
+	private final String prompt;
+
+	public Inputer(Outputer out, String prompt) {
 		super();
 		this.out = out;
+		this.prompt = prompt;
 		splitter = new StringSplitter();
 	}
 
@@ -16,7 +19,7 @@ public class Inputer {
 	private Outputer out;
 	
 	public List<String> input() {
-		out.output("> ");
+		out.output(prompt);
 		String line = inputRaw();
 		out.addToLog(line + '\n');
 		return splitter.splitIntoWords(line);
