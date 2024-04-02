@@ -3,7 +3,7 @@ package org.gamenet.dkienenb.component;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStoringComponent<K, V> extends ImmutableDataStoringComponent<Map<K, V>> {
+public abstract class MapStoringComponent<K, V> extends ImmutableDataStoringComponent<Map<K, V>> {
 
 	public MapStoringComponent() {
 		super(new HashMap<>());

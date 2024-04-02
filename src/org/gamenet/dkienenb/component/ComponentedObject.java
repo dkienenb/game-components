@@ -1,22 +1,10 @@
 package org.gamenet.dkienenb.component;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 public abstract class ComponentedObject {
-
-	@SafeVarargs
-	protected static Map<Class<? extends Component>, Object[]> thisNeedsARealName(Class<? extends Component>... types) {
-		Map<Class<? extends Component>, Object[]> map = new HashMap<>();
-		Arrays.stream(types)
-			.forEach(type -> map.put(type, new Object[0]));
-		return map;
-	}
 
 	private final List<Component> components = new ArrayList<>();
 
@@ -32,9 +20,8 @@ public abstract class ComponentedObject {
 					.filter(component -> component.getClass().isAssignableFrom(componentType))
 					.findFirst()
 					.orElseThrow();
-		} else {
-			throw new NoSuchElementException(this + " does not contain component " + componentType);
 		}
+		throw new NoSuchElementException(this + " does not contain component " + componentType);
 	}
 
 	public void checkDependencies() {
@@ -48,32 +35,9 @@ public abstract class ComponentedObject {
 		});
 	}
 
-	protected <T extends Component> void addComponent(T component) {
+	public <T extends Component> void addComponent(T component) {
 		components.add(component);
+		component.setAttached(this);
 		checkDependencies();
 	}
-
-	public <T extends Component> void createAndAddNewComponent(Class<T> componentType, Object... constructorArgs) {
-		try {
-			Arrays.stream(constructorArgs)
-				.map(object -> object.getClass())
-				.toArray(Class<?>[]::new);
-			Constructor<T> constructor = componentType.getDeclaredConstructor();
-			T instance = constructor.newInstance(constructorArgs);
-			addComponent(instance);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void createAndAddNewComponents(Map<Class<? extends Component>, Object[]> components) {
-		components.entrySet().stream()
-		.forEach(entry -> createAndAddNewComponent(entry.getKey(), entry.getValue()));
-	}
-
-	public ComponentedObject(Map<Class<? extends Component>, Object[]> initialComponents) {
-		createAndAddNewComponents(initialComponents);
-	}
-
-	protected ComponentedObject() {}
 }

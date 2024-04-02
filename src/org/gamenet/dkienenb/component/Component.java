@@ -5,18 +5,22 @@ import java.util.List;
 
 public abstract class Component {
 
-	private final List<Class<? extends Component>> dependencies;
+	private ComponentedObject attached;
 
 	public Component() {
-		dependencies = new ArrayList<>(0);
 	}
 
-	public Component(List<Class<? extends Component>> dependencies) {
-		this.dependencies = dependencies;
-	}
-
+	@SuppressWarnings("static-method")
 	public List<Class<? extends Component>> getDependencies() {
-		return dependencies;
+		return new ArrayList<>(0);
+	}
+
+	public ComponentedObject getAttached() {
+		return attached;
+	}
+
+	public void setAttached(ComponentedObject attached) {
+		this.attached = attached;
 	}
 
 }
