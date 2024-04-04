@@ -1,13 +1,10 @@
 package org.gamenet.dkienenb.event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EventBus {
 
-	private final List<Event> queue = new ArrayList<>();
+	private final List<Event> queue = new LinkedList<>();
 	private final Map<EventListenerPriorityLevel, List<EventListener>> priorityLevelToListenerListMap = new HashMap<>();
 
 	public void addEvent(Event event) {
@@ -32,5 +29,9 @@ public class EventBus {
 			List<EventListener> listeners = priorityLevelToListenerListMap.get(eventListenerPriorityLevel);
 			listeners.forEach(listener -> listener.receiveEvent(nextEvent));
 		}
+	}
+
+	public void cancelAll() {
+		queue.forEach(Event::cancel);
 	}
 }
