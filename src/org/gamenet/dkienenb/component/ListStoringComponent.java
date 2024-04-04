@@ -14,7 +14,4 @@ public abstract class ListStoringComponent<T> extends ImmutableDataStoringCompon
 		return getValue().stream();
 	}
 
-	protected boolean add(T element) {
-		return getValue().add(element);
-	}
 }

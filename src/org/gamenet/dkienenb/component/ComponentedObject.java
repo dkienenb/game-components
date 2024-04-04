@@ -25,9 +25,9 @@ public abstract class ComponentedObject {
 	}
 
 	public void checkDependencies() {
-		components.stream().forEach(component -> {
-			List<Class<? extends Component>> dependancies = component.getDependencies();
-			dependancies.stream()
+		components.forEach(component -> {
+			List<Class<? extends Component>> dependencies = component.getDependencies();
+			dependencies.stream()
 				.filter(dependency -> !hasComponent(dependency))
 				.forEach(dependency -> {
 					throw new IllegalStateException("Unmet component dependency: " + component + " depends on " + dependency);

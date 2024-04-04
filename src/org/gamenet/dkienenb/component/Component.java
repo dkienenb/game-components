@@ -10,7 +10,6 @@ public abstract class Component {
 	public Component() {
 	}
 
-	@SuppressWarnings("static-method")
 	public List<Class<? extends Component>> getDependencies() {
 		return new ArrayList<>(0);
 	}
