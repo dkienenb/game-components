@@ -17,18 +17,34 @@ public class EventBus {
 		currentListeners.add(listener);
 	}
 
+	public void removeListener(EventListener listener) {
+		EventListenerPriorityLevel priority = listener.getPriority();
+		List<EventListener> currentListeners = priorityLevelToListenerListMap.get(priority);
+		if (currentListeners != null) {
+			currentListeners.remove(listener);
+		}
+	}
+
 	public boolean hasNextEvent() {
 		return !queue.isEmpty();
 	}
 
 	public void callNextEvent() {
 		Event nextEvent = queue.remove(0);
+		fire(nextEvent);
+	}
+
+	private void fire(Event nextEvent) {
 		List<EventListenerPriorityLevel> availablePriorityLevels = new ArrayList<>(priorityLevelToListenerListMap.keySet());
 		availablePriorityLevels.sort(new EventListenerPriorityLevel.HighestLevelComparator());
 		for (EventListenerPriorityLevel eventListenerPriorityLevel : availablePriorityLevels) {
 			List<EventListener> listeners = priorityLevelToListenerListMap.get(eventListenerPriorityLevel);
 			listeners.forEach(listener -> listener.receiveEvent(nextEvent));
 		}
+	}
+
+	public void fireEventNow(Event newEvent) {
+		fire(newEvent);
 	}
 
 	public void cancelAll() {

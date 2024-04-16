@@ -1,13 +1,24 @@
 package org.gamenet.dkienenb.textgamecomponents;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Outputer {
 
-	private List<String> log = new ArrayList<>();
+	private final List<String> log = new ArrayList<>();
+	private final Map<String, Color> colorMap = new HashMap<>();
 
 	public void output(String string) {
+		for (Map.Entry<String, Color> entry : colorMap.entrySet()) {
+			String target = entry.getKey();
+			string = string.replaceAll(target, entry.getValue().getRawColorCode() + target + "\u001B[0m");
+		}
+		outputUncolored(string);
+	}
+
+	private void outputUncolored(String string) {
 		System.out.print(string);
 		log.add(string);
 	}
@@ -28,7 +39,11 @@ public class Outputer {
 		log.clear();
 	}
 
-	public boolean addToLog(String string) {
-		return log.add(string);
+	public void addToLog(String string) {
+		log.add(string);
+	}
+
+	public void colorize(String string, Color color) {
+		colorMap.put(string, color);
 	}
 }

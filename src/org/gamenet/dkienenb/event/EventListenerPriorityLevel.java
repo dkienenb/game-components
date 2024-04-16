@@ -14,7 +14,7 @@ public enum EventListenerPriorityLevel {
 
 		@Override
 		public int compare(EventListenerPriorityLevel first, EventListenerPriorityLevel second) {
-			return second.getPriority() - first.getPriority();
+			return Integer.compare(second.getPriority(), first.getPriority());
 		}
 		
 	}
