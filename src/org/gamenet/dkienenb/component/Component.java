@@ -20,6 +20,9 @@ public abstract class Component {
 
 	public void setAttached(ComponentedObject attached) {
 		this.attached = attached;
+		onAdd();
 	}
+
+	public void onAdd() {}
 
 }

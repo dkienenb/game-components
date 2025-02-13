@@ -13,7 +13,7 @@ public class Outputer {
 	public void output(String string) {
 		for (Map.Entry<String, Color> entry : colorMap.entrySet()) {
 			String target = entry.getKey();
-			string = string.replaceAll(target, entry.getValue().getRawColorCode() + target + "\u001B[0m");
+			string = string.replaceAll(target, entry.getValue().getRawColorCode() + target + Color.RESET.getRawColorCode());
 		}
 		outputUncolored(string);
 	}
