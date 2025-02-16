@@ -35,9 +35,10 @@ public abstract class ComponentedObject {
 		});
 	}
 
-	public <T extends Component> void addComponent(T component) {
+	public <T extends Component> ComponentedObject addComponent(T component) {
 		components.add(component);
 		component.setAttached(this);
 		checkDependencies();
+		return this;
 	}
 }
